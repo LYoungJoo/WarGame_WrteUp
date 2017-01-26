@@ -8,5 +8,5 @@ data = int(s.recvline()[13:22])
 print "[+] RECV " + str(data)
 print "[+] SEND"
 
-s.send(p32(data))
+s.send(p32(data)) # packing
 print "[+] " + str(s.recvline())
