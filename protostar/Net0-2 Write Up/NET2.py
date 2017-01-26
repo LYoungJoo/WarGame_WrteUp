@@ -10,11 +10,11 @@ data = 0
 for i in range(0,4):
     sleep(0.1)
     sys.stdout.write('.')
-    data += u32(s.recv(4))
+    data += u32(s.recv(4)) # unpacking
 sys.stdout.write('done')
 print ""
 
 print "[+] SEND"
-s.sendline(str(p32(data)))
+s.sendline(str(p32(data))) # packing
 
 print "[+] " + s.recvline()
